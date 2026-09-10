@@ -1,0 +1,21 @@
+{
+  "name": "data-capture-flow-compare",
+  "version": "0.4.44",
+  "private": true,
+  "description": "CLI + Cursor subagent for Salesforce Data Capture Flow compare (same engine as the VSIX).",
+  "license": "MIT",
+  "bin": {
+    "dc-flow-compare": "./bin/dc-flow-compare.js"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "cli": "npm run compile && node ./bin/dc-flow-compare.js"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

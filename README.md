@@ -1,19 +1,28 @@
 # Data Capture Flow Compare
 
-VS Code / Cursor extension to compare Salesforce Data Capture Flow versions.
+## VS Code / Cursor UI
 
-## Install
+Install [`data-capture-flow-compare-0.4.44.vsix`](./data-capture-flow-compare-0.4.44.vsix) via **Extensions → Install from VSIX…**
 
-1. Download [`data-capture-flow-compare-0.4.44.vsix`](./data-capture-flow-compare-0.4.44.vsix)
-2. In VS Code or Cursor: **Extensions** → **…** → **Install from VSIX…**
-3. Pick the downloaded file and reload the window
+## Cursor subagent
 
-## Requirements
+1. Clone into your DX project:
 
-- Salesforce CLI (`sf`) on your PATH
-- An authorized org (`sf org login web`)
-- A Salesforce DX project open in the editor
+```bash
+mkdir -p extensions
+git clone https://github.com/PrabhasriPrakash/SFS-data-capture-flow-compare.git extensions/data-capture-flow-compare
+cd extensions/data-capture-flow-compare
+npm install
+npm run compile
+```
 
-## Usage
+2. Copy the subagent to your **project root** (Cursor only loads agents from there):
 
-Command Palette → **Data Capture Flow: Compare from Org (Same or Across Orgs)**
+```bash
+mkdir -p ../../.cursor/agents
+cp .cursor/agents/dc-flow-compare.md ../../.cursor/agents/
+```
+
+3. Open the DX project in Cursor and run the **dc-flow-compare** subagent.
+
+Requires Salesforce CLI (`sf`) and an authorized org for org compares.

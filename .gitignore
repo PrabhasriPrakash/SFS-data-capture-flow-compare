@@ -1,5 +1,19 @@
-# Ignore local build/dev files; this repo ships the VSIX only.
+# Ignore local build/dev files.
 *
 !.gitignore
 !README.md
 !data-capture-flow-compare-0.4.44.vsix
+!.cursor/
+!.cursor/agents/
+!.cursor/agents/dc-flow-compare.md
+!bin/
+!bin/dc-flow-compare.js
+!src/
+!src/cli.ts
+!src/flowDiff.ts
+!src/sfJson.ts
+!src/unifiedTable.ts
+!src/versionLabel.ts
+!package.json
+!package-lock.json
+!tsconfig.json
