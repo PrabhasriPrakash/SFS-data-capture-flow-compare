@@ -1,0 +1,8 @@
+node_modules/
+out/
+*.vsix
+.ds_store
+.DS_Store
+
+*.zip
+.dc-flow-compare/
