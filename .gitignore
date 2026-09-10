@@ -1,8 +1,5 @@
-node_modules/
-out/
-*.vsix
-.ds_store
-.DS_Store
-
-*.zip
-.dc-flow-compare/
+# Ignore local build/dev files; this repo ships the VSIX only.
+*
+!.gitignore
+!README.md
+!data-capture-flow-compare-0.4.44.vsix
