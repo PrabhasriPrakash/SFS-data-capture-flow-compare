@@ -20,3 +20,5 @@
 !package.json
 !package-lock.json
 !tsconfig.json
+
+!GLOBAL-SETUP.md
