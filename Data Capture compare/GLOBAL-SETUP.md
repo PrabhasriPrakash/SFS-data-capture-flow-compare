@@ -1,12 +1,13 @@
 # Global setup (any Cursor project)
 
-Install once per Mac. After this, **dc-flow-compare** works no matter which folder you open in Cursor.
+Install once per Mac. After this, the **dc-flow-compare** subagent works no matter which folder you open in Cursor.
 
+All repo package files are under the **`Data Capture compare`** folder.
 
-## 1. Install CLI + Cursor helpers
+## 1. Install CLI + subagent
 
 ```bash
-mkdir -p ~/.cursor/tools ~/.cursor/agents ~/.cursor/skills ~/.local/bin
+mkdir -p ~/.cursor/tools ~/.cursor/agents ~/.local/bin
 
 git clone https://github.com/PrabhasriPrakash/SFS-data-capture-flow-compare.git /tmp/SFS-data-capture-flow-compare
 rm -rf ~/.cursor/tools/dc-flow-compare
@@ -19,8 +20,6 @@ ln -sfn ~/.cursor/tools/dc-flow-compare/bin/dc-flow-compare.js ~/.local/bin/dc-f
 chmod +x ~/.cursor/tools/dc-flow-compare/bin/dc-flow-compare.js
 
 cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/
-mkdir -p ~/.cursor/skills/dc-flow-compare
-cp .cursor/skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/
 ```
 
 Ensure `~/.local/bin` is on your PATH. Then **reload Cursor**.
@@ -28,7 +27,7 @@ Ensure `~/.local/bin` is on your PATH. Then **reload Cursor**.
 ## 2. Use in any project
 
 1. Open any Salesforce DX project in Cursor.
-2. Chat: `/dc-flow-compare` or pick the **dc-flow-compare** subagent.
+2. Pick the **dc-flow-compare** subagent (or ask to use it).
 3. Example: `Compare WWDigsForm v60 vs v61 --org MyOrg`
 
 Org compares use the **open project** as `--project-dir`. You still need `sf org login`.
@@ -46,5 +45,4 @@ cp -R "/tmp/SFS-data-capture-flow-compare/Data Capture compare" ~/.cursor/tools/
 cd ~/.cursor/tools/dc-flow-compare
 npm install && npm run compile
 cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/
-cp .cursor/skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/
 ```

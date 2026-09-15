@@ -1,14 +1,10 @@
 # Ignore local build/dev files.
 *
 !.gitignore
-!README.md
 !data-capture-flow-compare-0.4.44.vsix
 !.cursor/
 !.cursor/agents/
 !.cursor/agents/dc-flow-compare.md
-!.cursor/skills/
-!.cursor/skills/dc-flow-compare/
-!.cursor/skills/dc-flow-compare/SKILL.md
 !bin/
 !bin/dc-flow-compare.js
 !src/
@@ -20,5 +16,4 @@
 !package.json
 !package-lock.json
 !tsconfig.json
-
 !GLOBAL-SETUP.md
