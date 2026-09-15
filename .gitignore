@@ -6,6 +6,9 @@
 !.cursor/
 !.cursor/agents/
 !.cursor/agents/dc-flow-compare.md
+!.cursor/skills/
+!.cursor/skills/dc-flow-compare/
+!.cursor/skills/dc-flow-compare/SKILL.md
 !bin/
 !bin/dc-flow-compare.js
 !src/

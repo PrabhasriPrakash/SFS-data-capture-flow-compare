@@ -200,8 +200,11 @@ async function retrieveOneVersion(options: {
   projectDir: string;
   outFile: string;
 }): Promise<string> {
+  // sf retrieve requires --output-dir inside the project root.
+  const stagingRoot = path.join(options.projectDir, "tmp", "dc-flow-compare");
+  fs.mkdirSync(stagingRoot, { recursive: true });
   const staging = fs.mkdtempSync(
-    path.join(os.tmpdir(), `dc-flow-cli-${options.version}-`)
+    path.join(stagingRoot, `cli-${options.version}-`)
   );
   try {
     const stdout = await runSf(
@@ -362,7 +365,9 @@ async function compareOrg(args: Args): Promise<void> {
   }
   const leftOrg = args.leftOrg || args.org;
   const rightOrg = args.rightOrg || args.org;
-  const tempBase = fs.mkdtempSync(path.join(os.tmpdir(), "dc-flow-compare-"));
+  const stagingRoot = path.join(projectDir, "tmp", "dc-flow-compare");
+  fs.mkdirSync(stagingRoot, { recursive: true });
+  const tempBase = fs.mkdtempSync(path.join(stagingRoot, "compare-"));
   try {
     const leftPath = path.join(
       tempBase,
