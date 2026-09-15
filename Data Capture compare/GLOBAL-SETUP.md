@@ -2,7 +2,6 @@
 
 Install once per Mac. After this, **dc-flow-compare** works no matter which folder you open in Cursor.
 
-All repo package files are under the **`Data Capture compare`** folder.
 
 ## 1. Install CLI + Cursor helpers
 
