@@ -2,8 +2,6 @@
 
 Compare Salesforce Data Capture Flow versions in VS Code / Cursor (VSIX UI) or via Cursor subagent / skill (CLI).
 
-All package files live in **[`Data Capture compare/`](./Data%20Capture%20compare/)**.
-
 ## Quick start
 
 ### Extension (UI)
