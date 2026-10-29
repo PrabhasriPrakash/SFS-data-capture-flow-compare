@@ -238,21 +238,21 @@ export function valueCellClass(
   const leftEmpty = !left || left === "—";
   const rightEmpty = !right || right === "—";
   if (side === "right" && leftEmpty && !rightEmpty) {
-    return "val-add";
+    return "val-add text";
   }
   if (side === "left" && !leftEmpty && rightEmpty) {
-    return "val-rem";
+    return "val-rem text";
   }
   if (side === "left" && !leftEmpty && !rightEmpty && left !== right) {
-    return "val-rem";
+    return "val-rem bar";
   }
   if (side === "right" && !leftEmpty && !rightEmpty && left !== right) {
-    return "val-add";
+    return "val-add bar";
   }
   return "";
 }
 
-/** Only tint short values; long blobs get a thin accent bar, not a painted background. */
-export function isShortValue(value: string): boolean {
-  return !value || value === "—" || value.length <= 48;
+/** One-sided values use text color. Both-sided changes use a bar, so length is ignored. */
+export function isShortValue(_value: string): boolean {
+  return false;
 }

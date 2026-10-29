@@ -919,21 +919,30 @@ function assignmentPrefixRelatedness(
 
   const stemA = normalizeAssignmentVarStem(leftPrefix);
   const stemB = normalizeAssignmentVarStem(rightPrefix);
-  if (stemA && stemB) {
-    if (stemA === stemB) {
-      return 100;
-    }
-    if (stemA.includes(stemB) || stemB.includes(stemA)) {
-      return 80;
-    }
-  }
-
   const tokensA = camelCaseTokens(leftPrefix).filter(
     (t) => !ASSIGNMENT_PREFIX_NOISE.test(t)
   );
   const tokensB = camelCaseTokens(rightPrefix).filter(
     (t) => !ASSIGNMENT_PREFIX_NOISE.test(t)
   );
+  if (stemA && stemB && stemA === stemB) {
+    return 100;
+  }
+  const leadA = tokensA[0]?.toLowerCase() ?? "";
+  const leadB = tokensB[0]?.toLowerCase() ?? "";
+  // GetSADetails ↔ SARecord: both lead with SA. A trailing _SA on another
+  // variable (Get_Job_Form_Ass_to_SA) must not outrank that.
+  if (leadA && leadA === leadB) {
+    return 95;
+  }
+  if (stemA && stemB) {
+    if (stemA.startsWith(stemB) || stemB.startsWith(stemA)) {
+      return 90;
+    }
+    if (stemA.includes(stemB) || stemB.includes(stemA)) {
+      return 80;
+    }
+  }
   const initialsA = tokensA.map((t) => t[0]!.toLowerCase()).join("");
   const initialsB = tokensB.map((t) => t[0]!.toLowerCase()).join("");
   if (stemB && initialsA === stemB) {
@@ -961,8 +970,9 @@ const ASSIGNMENT_PREFIX_MARGIN = 10;
 
 /**
  * Pair removed↔added assignment items when only the target variable changes:
- * same field leaf, operator, and value. When multiple candidates share that
- * fingerprint, pick by variable-prefix relatedness (GetSAId ↔ SARecord).
+ * same field leaf, operator, and value. A fingerprint that is unique on both
+ * sides is one retarget. When several left items share that fingerprint, pair
+ * the closest variable (GetSADetails ↔ SARecord), not the first sorted name.
  */
 function pairAssignmentRetargets(
   leftOnly: Map<string, Record<string, unknown>>,
@@ -1000,55 +1010,74 @@ function pairAssignmentRetargets(
     pairs.push({ oldKey, newKey, left, right });
   };
 
-  // Pass 1: unique fingerprint match (no ambiguity).
-  for (const [oldKey, left] of [...leftOnly.entries()].sort(([a], [b]) =>
-    a.localeCompare(b)
-  )) {
-    const fp = fingerprint(left);
-    const candidates = [...rightOnly.entries()].filter(
-      ([newKey, right]) =>
-        !usedRight.has(newKey) && fingerprint(right) === fp
-    );
-    if (candidates.length === 1) {
-      const [newKey, right] = candidates[0];
-      tryPair(oldKey, newKey, left, right);
+  const groupByFingerprint = (items: Map<string, Record<string, unknown>>) => {
+    const grouped = new Map<
+      string,
+      Array<[string, Record<string, unknown>]>
+    >();
+    for (const [key, item] of items) {
+      const fp = fingerprint(item);
+      const list = grouped.get(fp) ?? [];
+      list.push([key, item]);
+      grouped.set(fp, list);
     }
-  }
+    return grouped;
+  };
 
-  // Pass 2: ambiguous fingerprint — choose by prefix relatedness.
-  for (const [oldKey, left] of [...leftOnly.entries()].sort(([a], [b]) =>
-    a.localeCompare(b)
-  )) {
-    if (usedLeft.has(oldKey)) {
+  const leftByFp = groupByFingerprint(leftOnly);
+  const rightByFp = groupByFingerprint(rightOnly);
+
+  for (const fp of new Set([...leftByFp.keys(), ...rightByFp.keys()])) {
+    const lefts = leftByFp.get(fp) ?? [];
+    const rights = rightByFp.get(fp) ?? [];
+    if (lefts.length === 0 || rights.length === 0) {
       continue;
     }
-    const fp = fingerprint(left);
-    const leftPrefix = assignmentFieldPrefix(left.assignToReference);
-    const scored = [...rightOnly.entries()]
-      .filter(
-        ([newKey, right]) =>
-          !usedRight.has(newKey) && fingerprint(right) === fp
-      )
-      .map(([newKey, right]) => ({
+
+    if (lefts.length === 1 && rights.length === 1) {
+      const [oldKey, left] = lefts[0];
+      const [newKey, right] = rights[0];
+      tryPair(oldKey, newKey, left, right);
+      continue;
+    }
+
+    const candidates = lefts.flatMap(([oldKey, left]) => {
+      const leftPrefix = assignmentFieldPrefix(left.assignToReference);
+      return rights.map(([newKey, right]) => ({
+        oldKey,
         newKey,
+        left,
         right,
         score: assignmentPrefixRelatedness(
           leftPrefix,
           assignmentFieldPrefix(right.assignToReference)
         ),
-      }))
-      .sort((a, b) => b.score - a.score || a.newKey.localeCompare(b.newKey));
+      }));
+    });
+    candidates.sort(
+      (a, b) =>
+        b.score - a.score ||
+        a.oldKey.localeCompare(b.oldKey) ||
+        a.newKey.localeCompare(b.newKey)
+    );
 
-    if (scored.length === 0) {
-      continue;
-    }
-    const best = scored[0];
-    const second = scored[1];
-    const clearWinner =
-      best.score >= ASSIGNMENT_PREFIX_MIN_SCORE &&
-      (!second || best.score >= second.score + ASSIGNMENT_PREFIX_MARGIN);
-    if (clearWinner) {
-      tryPair(oldKey, best.newKey, left, best.right);
+    for (const cand of candidates) {
+      if (usedLeft.has(cand.oldKey) || usedRight.has(cand.newKey)) {
+        continue;
+      }
+      const rival = candidates.find(
+        (other) =>
+          other !== cand &&
+          !usedLeft.has(other.oldKey) &&
+          !usedRight.has(other.newKey) &&
+          (other.oldKey === cand.oldKey || other.newKey === cand.newKey)
+      );
+      const clearWinner =
+        cand.score >= ASSIGNMENT_PREFIX_MIN_SCORE &&
+        (!rival || cand.score >= rival.score + ASSIGNMENT_PREFIX_MARGIN);
+      if (clearWinner) {
+        tryPair(cand.oldKey, cand.newKey, cand.left, cand.right);
+      }
     }
   }
 

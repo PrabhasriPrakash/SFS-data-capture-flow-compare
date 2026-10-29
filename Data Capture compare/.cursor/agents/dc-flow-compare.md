@@ -40,8 +40,19 @@ PROJECT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
    - **Columns must match the VSIX summary exactly:** Change Type | Label | API name | Element (kind chip + propertyLabel) | left version | right version.
    - Change Type text: `added` / `removed` / `Updated` (for modified).
    - Chat reply: short counts + 3 highlights + a markdown link to the canvas file.
-   - Tiny compares (<15 rows) may paste the CLI table in chat instead.
+   - Tiny compares (<15 rows) may be shown in chat, but still use the value coloring below. The raw CLI grid has no color.
 4. Never edit Flow XML or deploy.
+
+## Value coloring
+
+Color only the left and right value cells. Match the VSIX. Length does not matter. A cell is empty when it is missing, blank, or `—`.
+
+- **Left has a value and the right is empty:** left text is red (`#c62828`, weight 600). Right stays `—`.
+- **Right has a value and the left is empty:** right text is green (`#1b8a4a`, weight 600). Left stays `—`.
+- **Both sides have a value and they differ:** keep the text the normal foreground color. Add a 3px red bar on the left edge of the left cell and a 3px green bar on the left edge of the right cell (`padding-left: 8px`).
+- The change-type badge stays what the CLI reports (`added` / `removed` / `Updated`). A red or green value does not move the row into another category.
+
+In a canvas, put these styles on the value cell nodes inside `Table` `rows`. Use `useHostTheme().diffRemovedLine` and `useHostTheme().diffInsertedLine` for the bar and text colors when they are available; otherwise use the hex colors above. Do not paint a whole row red or green.
 
 ## Single command templates
 

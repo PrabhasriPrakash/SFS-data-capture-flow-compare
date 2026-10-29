@@ -19,7 +19,9 @@ npm run compile
 ln -sfn ~/.cursor/tools/dc-flow-compare/bin/dc-flow-compare.js ~/.local/bin/dc-flow-compare
 chmod +x ~/.cursor/tools/dc-flow-compare/bin/dc-flow-compare.js
 
-cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/
+cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/dc-flow-compare.md
+mkdir -p ~/.cursor/skills/dc-flow-compare
+cp skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/SKILL.md
 ```
 
 Ensure `~/.local/bin` is on your PATH. Then **reload Cursor**.
@@ -32,11 +34,20 @@ Ensure `~/.local/bin` is on your PATH. Then **reload Cursor**.
 
 Org compares use the **open project** as `--project-dir`. You still need `sf org login`.
 
-## 3. Optional: VSIX UI
+## 3. Skill
 
-Install `data-capture-flow-compare-0.4.44.vsix` from the `Data Capture compare` folder via **Install from VSIX…**.
+```bash
+mkdir -p ~/.cursor/skills/dc-flow-compare
+cp ~/.cursor/tools/dc-flow-compare/skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/SKILL.md
+```
 
-## 4. Update later
+Reload Cursor after this copy. Full audience steps are in [`../AUDIENCE-GUIDE.md`](../AUDIENCE-GUIDE.md).
+
+## 4. Optional: VSIX UI
+
+Install `data-capture-flow-compare-0.4.45.vsix` from the `Data Capture compare` folder via **Install from VSIX…**.
+
+## 5. Update later
 
 ```bash
 git clone --depth 1 https://github.com/PrabhasriPrakash/SFS-data-capture-flow-compare.git /tmp/SFS-data-capture-flow-compare
@@ -44,5 +55,7 @@ rm -rf ~/.cursor/tools/dc-flow-compare
 cp -R "/tmp/SFS-data-capture-flow-compare/Data Capture compare" ~/.cursor/tools/dc-flow-compare
 cd ~/.cursor/tools/dc-flow-compare
 npm install && npm run compile
-cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/
+cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/dc-flow-compare.md
+mkdir -p ~/.cursor/skills/dc-flow-compare
+cp skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/SKILL.md
 ```
