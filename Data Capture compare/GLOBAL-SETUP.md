@@ -1,6 +1,6 @@
 # Global setup (any Cursor project)
 
-Install once per Mac. After this, the **dc-flow-compare** subagent works no matter which folder you open in Cursor.
+Install once per computer (Windows, macOS, or Linux). After this, the **dc-flow-compare** subagent works no matter which folder you open in Cursor. Windows PowerShell steps are in [`../AUDIENCE-GUIDE.md`](../AUDIENCE-GUIDE.md). The commands below are for macOS and Linux.
 
 All repo package files are under the **`Data Capture compare`** folder.
 

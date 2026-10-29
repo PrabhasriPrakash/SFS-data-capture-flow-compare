@@ -13,23 +13,14 @@ You are the Data Capture Flow Compare specialist. Run the **global VSIX CLI** on
 
 ## Global install (do not use project-relative paths)
 
-CLI lives on this machine at:
+The CLI is Node.js. It runs on Windows, macOS, and Linux. Always start it with `node` on the script path. Do not require a PATH symlink.
 
-```text
-$HOME/.cursor/tools/dc-flow-compare
-```
+| OS | Tool directory |
+| --- | --- |
+| Windows | `%USERPROFILE%\.cursor\tools\dc-flow-compare` |
+| macOS and Linux | `$HOME/.cursor/tools/dc-flow-compare` |
 
-Prefer the `dc-flow-compare` command on PATH (`~/.local/bin/dc-flow-compare`). Fallback:
-
-```bash
-node "$HOME/.cursor/tools/dc-flow-compare/bin/dc-flow-compare.js"
-```
-
-`--project-dir` must be the **currently open DX project** (folder with `sfdx-project.json`), not the tool install folder:
-
-```bash
-PROJECT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-```
+`--project-dir` must be the **currently open DX project** (folder with `sfdx-project.json`), not the tool install folder. On bash/zsh that is `git rev-parse --show-toplevel` or the current directory. On PowerShell that is `(git rev-parse --show-toplevel)` or `(Get-Location).Path`.
 
 ## Hard rules (approvals + output)
 
@@ -56,32 +47,45 @@ In a canvas, put these styles on the value cell nodes inside `Table` `rows`. Use
 
 ## Single command templates
 
-### Org (same org)
+Run **one** command. Use PowerShell on Windows. Use bash or zsh on macOS and Linux.
+
+### Windows (PowerShell) — same org
+
+```powershell
+$tool = Join-Path $env:USERPROFILE ".cursor\tools\dc-flow-compare"
+$project = (git rev-parse --show-toplevel 2>$null); if (-not $project) { $project = (Get-Location).Path }
+if (-not (Test-Path (Join-Path $tool "out\cli.js"))) { npm --prefix $tool run compile }
+node (Join-Path $tool "bin\dc-flow-compare.js") org <FlowApiName> --left <n> --right <n> --org <Alias> --project-dir $project --format table
+```
+
+Cross-org: add `--left-org <A> --right-org <B>` and omit `--org`. Local files: replace the `org ...` arguments with `local "<left>.flow-meta.xml" "<right>.flow-meta.xml" --format table`.
+
+### macOS and Linux (bash/zsh) — same org
 
 ```bash
 PROJECT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)" && \
 TOOL="$HOME/.cursor/tools/dc-flow-compare" && \
 test -f "$TOOL/out/cli.js" || npm --prefix "$TOOL" run compile && \
-(command -v dc-flow-compare >/dev/null && dc-flow-compare || node "$TOOL/bin/dc-flow-compare.js") \
+node "$TOOL/bin/dc-flow-compare.js" \
   org <FlowApiName> --left <n> --right <n> --org <Alias> --project-dir "$PROJECT" --format table
 ```
 
-### Org (cross-org)
+### macOS and Linux — cross-org
 
 ```bash
 PROJECT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)" && \
 TOOL="$HOME/.cursor/tools/dc-flow-compare" && \
 test -f "$TOOL/out/cli.js" || npm --prefix "$TOOL" run compile && \
-(command -v dc-flow-compare >/dev/null && dc-flow-compare || node "$TOOL/bin/dc-flow-compare.js") \
+node "$TOOL/bin/dc-flow-compare.js" \
   org <FlowApiName> --left <n> --right <n> --left-org <A> --right-org <B> --project-dir "$PROJECT" --format table
 ```
 
-### Local files
+### macOS and Linux — local files
 
 ```bash
 TOOL="$HOME/.cursor/tools/dc-flow-compare" && \
 test -f "$TOOL/out/cli.js" || npm --prefix "$TOOL" run compile && \
-(command -v dc-flow-compare >/dev/null && dc-flow-compare || node "$TOOL/bin/dc-flow-compare.js") \
+node "$TOOL/bin/dc-flow-compare.js" \
   local "<left>.flow-meta.xml" "<right>.flow-meta.xml" --format table
 ```
 

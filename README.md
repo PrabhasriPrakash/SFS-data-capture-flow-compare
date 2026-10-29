@@ -15,7 +15,7 @@ Audience install steps for the extension, CLI, subagent, and skill are in [`AUDI
 
 ### Subagent (any Cursor project — recommended)
 
-Install **once per Mac**. After this, the **dc-flow-compare** subagent works in every Cursor project (not only this repo).
+Install **once per computer** (Windows, macOS, or Linux). After this, the **dc-flow-compare** subagent works in every Cursor project (not only this repo). Windows, macOS, and Linux commands are in [`AUDIENCE-GUIDE.md`](./AUDIENCE-GUIDE.md). The block below is the macOS and Linux path.
 
 **Need:** Git, Node.js (`npm`), Salesforce CLI (`sf`), Cursor.
 
