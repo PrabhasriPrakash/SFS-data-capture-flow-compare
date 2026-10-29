@@ -1,7 +1,10 @@
 # Ignore local build/dev files.
 *
 !.gitignore
-!data-capture-flow-compare-0.4.44.vsix
+!data-capture-flow-compare-0.4.45.vsix
+!skills/
+!skills/dc-flow-compare/
+!skills/dc-flow-compare/SKILL.md
 !.cursor/
 !.cursor/agents/
 !.cursor/agents/dc-flow-compare.md
