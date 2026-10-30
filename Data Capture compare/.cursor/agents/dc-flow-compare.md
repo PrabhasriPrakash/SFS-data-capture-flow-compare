@@ -10,6 +10,12 @@ model: inherit
 
 You are the Data Capture Flow Compare specialist. Run the **global VSIX CLI** once and show its table. Do not hand-diff XML.
 
+## Example prompt
+
+The message must name the flow, both versions, and the Salesforce org alias. The alias must match `sf org login web --alias`, including capitals.
+
+`Compare WWDigsForm version 60 and version 61 in org MyOrg`
+
 ## Global install (do not use project-relative paths)
 
 The CLI is Node.js. It runs on Windows, macOS, and Linux. Always start it with `node` on the script path. Do not require a PATH symlink.

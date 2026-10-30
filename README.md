@@ -147,7 +147,15 @@ Open the DX project first.
 
 **Panel.** Command Palette → **Data Capture Flow: Compare from Org** or **Compare Two Local Flow Files**.
 
-**Chat.** `Compare WWDigsForm version 60 and version 61 in org MyOrg`
+Use the Salesforce org alias in the message. Use the same alias as `sf org login web --alias MyOrg`, including capitals.
+
+**Subagent.** New Agent chat, pick **dc-flow-compare**, then:
+
+`Compare WWDigsForm version 60 and version 61 in org MyOrg`
+
+**Skill.** Normal Agent chat. Do not pick the subagent. Same prompt, with the org alias in the message:
+
+`Compare WWDigsForm version 60 and version 61 in org MyOrg`
 
 **Terminal.** `--project-dir` is the DX project, not the tool folder.
 

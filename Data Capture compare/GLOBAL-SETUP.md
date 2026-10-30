@@ -30,12 +30,16 @@ Ensure `~/.local/bin` is on your PATH. Then **reload Cursor**.
 ## 2. Use in any project
 
 1. Open any Salesforce DX project in Cursor.
-2. Pick the **dc-flow-compare** subagent (or ask to use it).
-3. Example: `Compare WWDigsForm v60 vs v61 --org MyOrg`
+2. Pick the **dc-flow-compare** subagent.
+3. Example: `Compare WWDigsForm version 60 and version 61 in org MyOrg`
 
-Org compares use the **open project** as `--project-dir`. You still need `sf org login`.
+The alias must match `sf org login web --alias`, including capitals. Org compares use the **open project** as `--project-dir`. You still need `sf org login`.
 
 ## 3. Skill
+
+Normal Agent chat, without picking the subagent. Use the same prompt, with the org alias in the message:
+
+`Compare WWDigsForm version 60 and version 61 in org MyOrg`
 
 ```bash
 mkdir -p ~/.cursor/skills/dc-flow-compare
