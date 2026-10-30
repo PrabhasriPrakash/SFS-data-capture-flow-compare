@@ -50,4 +50,4 @@ Reload Cursor after this copy. Full install steps are in [`../README.md`](../REA
 
 ## 4. Optional: VSIX UI
 
-Install `data-capture-flow-compare-0.4.45.vsix` from the `Data Capture compare` folder via **Install from VSIX…**.
+Install `data-capture-flow-compare-0.4.46.vsix` from the `Data Capture compare` folder via **Install from VSIX…**.

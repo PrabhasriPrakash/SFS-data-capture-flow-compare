@@ -8,7 +8,7 @@ Compare two versions of a Salesforce Data Capture Flow. You get a table of what 
 
 **Added** is only on the right, **Removed** is only on the left, and **Updated** is on both sides with a change inside. The compare reads Flow XML. It does not edit the flow or deploy.
 
-Package files are in [`Data Capture compare/`](./Data%20Capture%20compare/). Version **0.4.45**.
+Package files are in [`Data Capture compare/`](./Data%20Capture%20compare/). Version **0.4.46**.
 
 | Piece | What it does |
 | --- | --- |
@@ -23,7 +23,7 @@ Run each block in order, in the same terminal. Wait until it finishes before the
 
 ## 1. Extension
 
-1. Open [`Data Capture compare/data-capture-flow-compare-0.4.45.vsix`](./Data%20Capture%20compare/data-capture-flow-compare-0.4.45.vsix).
+1. Open [`Data Capture compare/data-capture-flow-compare-0.4.46.vsix`](./Data%20Capture%20compare/data-capture-flow-compare-0.4.46.vsix).
 2. **Extensions** → **⋯** → **Install from VSIX…**
 3. **Developer: Reload Window**.
 
