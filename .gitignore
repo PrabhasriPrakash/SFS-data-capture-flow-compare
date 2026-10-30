@@ -1,7 +1,6 @@
 # Root of SFS-data-capture-flow-compare: only README + package folder.
 *
 !README.md
-!AUDIENCE-GUIDE.md
 !.gitignore
 !Data Capture compare/
 !Data Capture compare/**

@@ -1,6 +1,6 @@
 # Global setup (any Cursor project)
 
-Install once per computer (Windows, macOS, or Linux). After this, the **dc-flow-compare** subagent works no matter which folder you open in Cursor. Windows PowerShell steps are in [`../AUDIENCE-GUIDE.md`](../AUDIENCE-GUIDE.md). The commands below are for macOS and Linux.
+Install once per computer (Windows, macOS, or Linux). After this, the **dc-flow-compare** subagent works no matter which folder you open in Cursor. The full install, including Windows, is in [`../README.md`](../README.md). The commands below are the macOS and Linux shortcut.
 
 All repo package files are under the **`Data Capture compare`** folder.
 
@@ -41,7 +41,7 @@ mkdir -p ~/.cursor/skills/dc-flow-compare
 cp ~/.cursor/tools/dc-flow-compare/skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/SKILL.md
 ```
 
-Reload Cursor after this copy. Full audience steps are in [`../AUDIENCE-GUIDE.md`](../AUDIENCE-GUIDE.md).
+Reload Cursor after this copy. Full install steps are in [`../README.md`](../README.md).
 
 ## 4. Optional: VSIX UI
 
