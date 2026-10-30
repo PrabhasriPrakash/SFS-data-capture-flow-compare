@@ -7,8 +7,9 @@ All repo package files are under the **`Data Capture compare`** folder.
 ## 1. Install CLI + subagent
 
 ```bash
-mkdir -p ~/.cursor/tools ~/.cursor/agents ~/.local/bin
+mkdir -p ~/.cursor/tools ~/.cursor/agents ~/.cursor/skills/dc-flow-compare ~/.local/bin
 
+rm -rf /tmp/SFS-data-capture-flow-compare
 git clone https://github.com/PrabhasriPrakash/SFS-data-capture-flow-compare.git /tmp/SFS-data-capture-flow-compare
 rm -rf ~/.cursor/tools/dc-flow-compare
 cp -R "/tmp/SFS-data-capture-flow-compare/Data Capture compare" ~/.cursor/tools/dc-flow-compare
@@ -46,16 +47,3 @@ Reload Cursor after this copy. Full install steps are in [`../README.md`](../REA
 ## 4. Optional: VSIX UI
 
 Install `data-capture-flow-compare-0.4.45.vsix` from the `Data Capture compare` folder via **Install from VSIX…**.
-
-## 5. Update later
-
-```bash
-git clone --depth 1 https://github.com/PrabhasriPrakash/SFS-data-capture-flow-compare.git /tmp/SFS-data-capture-flow-compare
-rm -rf ~/.cursor/tools/dc-flow-compare
-cp -R "/tmp/SFS-data-capture-flow-compare/Data Capture compare" ~/.cursor/tools/dc-flow-compare
-cd ~/.cursor/tools/dc-flow-compare
-npm install && npm run compile
-cp .cursor/agents/dc-flow-compare.md ~/.cursor/agents/dc-flow-compare.md
-mkdir -p ~/.cursor/skills/dc-flow-compare
-cp skills/dc-flow-compare/SKILL.md ~/.cursor/skills/dc-flow-compare/SKILL.md
-```

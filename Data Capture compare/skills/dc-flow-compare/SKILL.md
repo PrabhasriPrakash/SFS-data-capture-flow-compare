@@ -20,24 +20,30 @@ The CLI is Node.js. It runs on Windows, macOS, and Linux. Always start it with `
 
 1. **One shell only.** Combine build + compare into a **single** command. Do not run `sf org list`, exploratory finds, or separate compile/compare steps.
 2. **Do not ask for approval-style confirmation** in chat (“Shall I run…?”). If Flow name, versions, and org are present (or a sensible default org), run immediately.
-3. **Prefer a Cursor Canvas for the table** when the compare has more than ~15 rows, or whenever the user asks for a canvas/summary table.
+3. **Always create a Cursor Canvas** when the compare has at least one row. One change is enough. Do not paste the table in chat.
    - Prefer `--format json` and map unified rows into the canvas.
    - **Columns must match the VSIX summary exactly:** Change Type | Label | API name | Element (kind chip + propertyLabel) | left version | right version.
    - Change Type text: `added` / `removed` / `Updated` (for modified).
    - Chat reply: short counts + 3 highlights + a markdown link to the canvas file.
-   - Tiny compares (<15 rows) may be shown in chat, but still use the value coloring below. The raw CLI grid has no color.
+   - **Zero rows:** do not create a canvas. Say in chat that the two versions have no changes.
 4. Never edit Flow XML or deploy.
 
 ## Value coloring
 
-Color only the left and right value cells. Match the VSIX. Length does not matter. A cell is empty when it is missing, blank, or `—`.
+Color only the left and right value cells. Length does not matter. A cell is empty when it is missing, blank, or `—`.
 
-- **Left has a value and the right is empty:** left text is red (`#c62828`, weight 600). Right stays `—`.
-- **Right has a value and the left is empty:** right text is green (`#1b8a4a`, weight 600). Left stays `—`.
-- **Both sides have a value and they differ:** keep the text the normal foreground color. Add a 3px red bar on the left edge of the left cell and a 3px green bar on the left edge of the right cell (`padding-left: 8px`).
+Use `useHostTheme().category.red` and `useHostTheme().category.green`. Do not use `diff.removedLine` or `diff.insertedLine`. Those are pale backgrounds and the text looks dull.
+
+- **Left has a value and the right is empty:** left text is red, weight 600, with a 4px red bar on the left edge (`padding-left: 8px`). Right stays `—`.
+- **Right has a value and the left is empty:** right text is green, weight 600, with a 4px green bar on the left edge (`padding-left: 8px`). Left stays `—`.
+- **Both sides have a value:** the font stays the normal foreground color on both cells, even when the values differ. Do not color that text red or green. If the values differ, add a 4px red bar on the left cell and a 4px green bar on the right cell (`padding-left: 8px`).
 - The change-type badge stays what the CLI reports (`added` / `removed` / `Updated`). A red or green value does not move the row into another category.
 
-In a canvas, put these styles on the value cell nodes inside `Table` `rows`. Use `useHostTheme().diffRemovedLine` and `useHostTheme().diffInsertedLine` for the bar and text colors when they are available; otherwise use the hex colors above. Do not paint a whole row red or green.
+In a canvas, put these styles on the value cell nodes inside `Table` `rows`. Do not paint a whole row red or green.
+
+## Column width
+
+Wrap the API name, Element, and both version columns so long names do not spill into the next column. API name max width 160. Element max width 200. Each version column max width 220. Use `overflowWrap: "anywhere"` so the text wraps inside that width.
 
 ## Single command templates
 
@@ -93,7 +99,7 @@ If org alias is missing, ask **once** for the alias only — then run the single
 
 (optional ≤3 highlight bullets)
 
-<link to canvas when large, else paste CLI table>
+<link to canvas. Omit the canvas only when the row count is zero.>
 ```
 
 If the CLI errors, paste the error and the next fix (`sf org login web --alias …`). Do not guess diffs.
